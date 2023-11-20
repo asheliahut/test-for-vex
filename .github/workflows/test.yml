@@ -19,7 +19,7 @@ jobs:
       run: npm install
 
     - name: Run background service
-      run: docker run -d --workdir /home/node/app -v ${{ github.workspace }}:/home/node/app node:20-alpine node index.js
+      run: docker run -p 3000:3000 -d --workdir /home/node/app -v ${{ github.workspace }}:/home/node/app node:20-alpine node index.js
 
     - name: Run a script using Node.js
       run: |
