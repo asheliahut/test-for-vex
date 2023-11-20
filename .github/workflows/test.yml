@@ -23,5 +23,6 @@ jobs:
 
     - name: Run a script using Node.js
       run: |
+        sleep 5
         curl "http://localhost:3000"
         echo "done"
