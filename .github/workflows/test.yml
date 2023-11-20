@@ -18,8 +18,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Run background service
+      run: docker run -d --workdir /home/node/app -v ${{ github.workspace }}:/home/node/app node:20-alpine node index.js
+
     - name: Run a script using Node.js
       run: |
-        docker run -d --workdir /home/node/app -v ${{ github.workspace }}:/home/node/app node:20-alpine node index.js
         curl "http://localhost:3000"
         echo "done"
