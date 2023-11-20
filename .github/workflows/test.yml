@@ -11,6 +11,7 @@ jobs:
         image: node:20
         volumes:
           - ${{ github.workspace }}/index.js:/usr/src/app/index.js
+        options: --name node
         ports:
           - 3000:3000
 
