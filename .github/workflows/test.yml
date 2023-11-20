@@ -33,9 +33,13 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Run detached server
+      uses: docker://docker
+      with:
+        args: docker exec -d node node index.js
+
     - name: Run a script using Node.js
       run: |
-        docker exec -d node node index.js
         sleep 5
         curl "http://localhost:3000"
         echo "done"
