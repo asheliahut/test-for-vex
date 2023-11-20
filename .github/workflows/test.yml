@@ -6,28 +6,9 @@ jobs:
   run-node:
     runs-on: ubuntu-latest
 
-    services:
-      node:
-        image: node:20
-        volumes:
-          - ${{ github.workspace }}:/home/node/app
-        options: --name node
-        ports:
-          - 3000:3000
-
     steps:
     - name: Check out repository
       uses: actions/checkout@v4
-
-    - name: Restart Node after checkout
-      # Restart MQTT after volumes have been checked out
-      uses: docker://docker
-      with:
-        args: docker restart node
-
-    - name: Wait for Node to start
-      run: |
-        sleep 7
 
     - name: Setup node locally
       uses: actions/setup-node@v4
@@ -37,13 +18,8 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run detached server
-      uses: docker://docker
-      with:
-        args: docker exec -d node node index.js
-
     - name: Run a script using Node.js
       run: |
-        sleep 5
+        docker run -d --workdir /home/node/app -v ${{ github.workspace }}:/home/node/app node:20-alpine node index.js
         curl "http://localhost:3000"
         echo "done"
