@@ -9,13 +9,20 @@ jobs:
     services:
       node:
         image: node:20
-        options: --network host --volume .:/usr/src/app
+        volumes:
+          - ${{ github.workspace }}/index.js:/usr/src/app/index.js
         ports:
           - 3000:3000
 
     steps:
     - name: Check out repository
       uses: actions/checkout@v4
+
+    - name: Restart Node after checkout
+      # Restart MQTT after volumes have been checked out
+      uses: docker://docker
+      with:
+        args: docker restart node
 
     - name: Setup node locally
       uses: actions/setup-node@v4
