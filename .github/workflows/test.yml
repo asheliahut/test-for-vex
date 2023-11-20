@@ -25,6 +25,10 @@ jobs:
       with:
         args: docker restart node
 
+    - name: Wait for Node to start
+      run: |
+        sleep 7
+
     - name: Setup node locally
       uses: actions/setup-node@v4
       with:
