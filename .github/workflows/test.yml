@@ -35,6 +35,7 @@ jobs:
 
     - name: Run a script using Node.js
       run: |
-        docker exec node node index.js &
+        docker exec -d node node index.js
+        sleep 5
         curl "http://localhost:3000"
         echo "done"
