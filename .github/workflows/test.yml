@@ -1,0 +1,32 @@
+name: Node.js Service Container Example
+
+on: workflow_dispatch
+
+jobs:
+  run-node:
+    runs-on: ubuntu-latest
+
+    services:
+      node:
+        image: node:20
+        options: --network host --volume .:/usr/src/app
+        ports:
+          - 3000:3000
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Setup node locally
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run a script using Node.js
+      run: |
+        docker exec node node index.js &
+        curl "http://localhost:3000"
+        echo "done"
